@@ -16,13 +16,17 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     
     @IBOutlet weak var collectionView: UICollectionView!
     
+    @IBOutlet weak var searchBar: UISearchBar!
+    
     @IBOutlet weak var layout: UICollectionViewFlowLayout!
     
     @IBOutlet weak var errorView: UIView!
     
     var movies: [NSDictionary]?
     
-    var numMovies = 5
+    var filteredMovies: [NSDictionary]!
+    
+//    var numMovies = 5
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +42,15 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         
         tableView.dataSource = self
         tableView.delegate = self
+        
+        // setup searchbar delegate
+        searchBar.delegate = self
+        
+        // set filteredMovies to be equal to movies
+        if let movies = movies {
+            filteredMovies = movies
+        }
+        
         // Do any additional setup after loading the view.
         
         // load our data into the view
@@ -70,8 +83,8 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if let movies = movies {
-            return movies.count
+        if let filteredMovies = filteredMovies {
+            return filteredMovies.count
         }
         
         return 0
@@ -82,7 +95,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieCell
         
-        let movie = movies![indexPath.row]
+        let movie = filteredMovies![indexPath.row]
         
         let title = movie["title"] as! String
         
@@ -131,6 +144,9 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
                     
                     // Use the new data to update the data source
                     self.movies = dataDictionary["results"] as? [NSDictionary]
+                    
+                    // Update filteredData
+                    self.filteredMovies = self.movies
                     
                     // Reload the tableView now that there is new data
                     self.tableView.reloadData()
@@ -182,8 +198,8 @@ extension MoviesViewController: UICollectionViewDelegate, UICollectionViewDataSo
     
     // specifying the number of cells in the given section
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if let movies = movies {
-            return movies.count
+        if let filteredMovies = filteredMovies {
+            return filteredMovies.count
         }
         
         return 0
@@ -210,7 +226,7 @@ extension MoviesViewController: UICollectionViewDelegate, UICollectionViewDataSo
         // instantiate our cell as a MovieCell
         let movieCell = cell as! MovieCollectionViewCell
         // set the movie
-        let movie = movies![indexPath.row]
+        let movie = filteredMovies![indexPath.row]
         // set the title
         let title = movie["title"] as! String
         // set the overview
@@ -231,4 +247,61 @@ extension MoviesViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.width, height: 250)
     }
+}
+
+extension MoviesViewController: UISearchBarDelegate {
+    // Inspired from Snippet in AppCoda's Beginning iOS 10 Programming
+    func filterContent(for searchText: String) {
+        // make sure our movies dictionary exists
+        if let movies = movies {
+            // assign a value to our filteredMovies
+            if searchText.isEmpty {
+                filteredMovies = movies
+            } else {
+                filteredMovies = movies.filter({ (movie) -> Bool in
+                    // get the title of the movie
+                    let title = movie["title"] as! String
+                    print(title)
+                    // check if it's a match
+                    let isMatch = title.localizedCaseInsensitiveContains(searchText)
+                    print(isMatch)
+                    // return true or false, depending on if it's in the set
+                    return isMatch
+                })
+            }
+        }
+    }
+    
+    // This method updates filteredData based on the text in the Search Box
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        // when there is no text, filteredData is the same as the original data
+        // when user has entered text into the search box
+        // use the filter method to iterate over all items in a data array
+        // for each item, return true if the item should be included and false if 
+        // the item should NOT be included
+        
+        // filter content
+        filterContent(for: searchText)
+        
+        // reloadData
+        tableView.reloadData()
+        collectionView.reloadData()
+    }
+    
+    // this method gets called when the user starts editing search text
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        // show the cancel button in the keyboard
+        self.searchBar.showsCancelButton = true
+    }
+    
+    // handle what happens when a user clicks on the cancel button
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        // hide the cancel button
+        searchBar.showsCancelButton = false
+        // empty the search field
+        searchBar.text = ""
+        // hide the keyboard (?)
+        searchBar.resignFirstResponder()
+    }
+    
 }

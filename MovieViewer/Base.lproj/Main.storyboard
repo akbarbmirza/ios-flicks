@@ -26,7 +26,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="113"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5Xg-N6-Hqe" id="JQO-Ls-bTc">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="112"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="112.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="rT9-cV-nLF">
@@ -140,6 +140,7 @@
                         <outlet property="collectionView" destination="0vt-Nf-AHp" id="a2k-ut-c2y"/>
                         <outlet property="errorView" destination="v0p-3E-eaT" id="RHL-RZ-fgl"/>
                         <outlet property="layout" destination="Sub-g4-JEJ" id="dNC-c7-jZm"/>
+                        <outlet property="searchBar" destination="Rms-xD-hkR" id="k7M-hp-Wyr"/>
                         <outlet property="tableView" destination="gfq-TW-EYD" id="I5k-V8-z6x"/>
                     </connections>
                 </viewController>
