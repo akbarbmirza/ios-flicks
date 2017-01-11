@@ -10,9 +10,7 @@ import UIKit
 import AFNetworking // for setImageWith Method
 import MBProgressHUD // for Progress HUD
 
-class MoviesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-
-    @IBOutlet weak var tableView: UITableView!
+class MoviesViewController: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -26,22 +24,20 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     
     var filteredMovies: [NSDictionary]!
     
-//    var numMovies = 5
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // set up our collectionView
+        setupCollectionView()
+        
         // Initialize a UIRefreshControl
         let refreshControl = UIRefreshControl()
+        
         // Bind the action to the refresh control
         refreshControl.addTarget(self, action: #selector(refreshControlAction(refreshControl:)), for: UIControlEvents.valueChanged)
-        // add the refresh control to the table view
-        // tableView.insertSubview(refreshControl, at: 0)
+        
         // add the refresh control to the collection view
         collectionView.insertSubview(refreshControl, at: 0)
-        
-        tableView.dataSource = self
-        tableView.delegate = self
         
         // setup searchbar delegate
         searchBar.delegate = self
@@ -51,13 +47,9 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
             filteredMovies = movies
         }
         
-        // Do any additional setup after loading the view.
-        
         // load our data into the view
         loadData(refreshControl: refreshControl)
         
-        // -----------------------
-        setupCollectionView()
     }
 
     override func didReceiveMemoryWarning() {
@@ -67,54 +59,14 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     
     // initializing our collectionview and adding it to the VC's current view
     func setupCollectionView() {
-        // set the layout minimum spacing to 0
-        layout.minimumLineSpacing = 0
-        // set the layout minimum interitem spacing to 0
-        layout.minimumInteritemSpacing = 0
-        // change the background of our collectionView to white
-//        collectionView.backgroundColor = UIColor.white
         // setup the collectionView Delegate
         collectionView.delegate = self
         // setup the collectionView Data Source
         collectionView.dataSource = self
-        // add the collectionview
-        view.addSubview(collectionView)
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        if let filteredMovies = filteredMovies {
-            return filteredMovies.count
-        }
-        
-        return 0
-    }
-    
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieCell
-        
-        let movie = filteredMovies![indexPath.row]
-        
-        let title = movie["title"] as! String
-        
-        let overview = movie["overview"] as! String
-        
-        let baseUrl = "https://image.tmdb.org/t/p/w500"
-        
-        let posterPath = movie["poster_path"] as! String
-        
-        let imageUrl = URL(string: baseUrl + posterPath)
-        
-        
-        cell.titleLabel.text = "\(title)"
-        cell.overviewLabel.text = "\(overview)"
-        cell.posterView.setImageWith(imageUrl!)
-                
-        print("row \(indexPath.row)")
-        
-        return cell
+        // set the layout minimum spacing to 0
+        layout.minimumLineSpacing = 0
+        // set the layout minimum interitem spacing to 0
+        layout.minimumInteritemSpacing = 0
     }
     
     func loadData(refreshControl: UIRefreshControl?) {
@@ -148,9 +100,6 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
                     // Update filteredData
                     self.filteredMovies = self.movies
                     
-                    // Reload the tableView now that there is new data
-                    self.tableView.reloadData()
-                    
                     // Reload the collectionView now that there is new data
                     self.collectionView.reloadData()
                     
@@ -171,7 +120,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     // Makes a network reqquest to get updated data
-    // Updates the tableView with the new data
+    // Updates the view with new data
     // Hides the RefreshControl
     func refreshControlAction(refreshControl: UIRefreshControl) {
         loadData(refreshControl: refreshControl)
@@ -213,9 +162,6 @@ extension MoviesViewController: UICollectionViewDelegate, UICollectionViewDataSo
         
         // call awakeFromNib() to setup cell
         cell.awakeFromNib()
-        
-        // set up cell delegate
-//        cell.delegate = self
         
         // return cell
         return cell
@@ -261,10 +207,16 @@ extension MoviesViewController: UISearchBarDelegate {
                 filteredMovies = movies.filter({ (movie) -> Bool in
                     // get the title of the movie
                     let title = movie["title"] as! String
-                    print(title)
+                    
+                    // NOTE: DEBUG CODE
+                    // print(title)
+                    
                     // check if it's a match
                     let isMatch = title.localizedCaseInsensitiveContains(searchText)
-                    print(isMatch)
+                    
+                    // NOTE: DEBUG CODE
+                    // print(isMatch)
+                    
                     // return true or false, depending on if it's in the set
                     return isMatch
                 })
@@ -283,8 +235,7 @@ extension MoviesViewController: UISearchBarDelegate {
         // filter content
         filterContent(for: searchText)
         
-        // reloadData
-        tableView.reloadData()
+        // reload the data in our view
         collectionView.reloadData()
     }
     
