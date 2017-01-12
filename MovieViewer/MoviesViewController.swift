@@ -125,16 +125,95 @@ class MoviesViewController: UIViewController {
     func refreshControlAction(refreshControl: UIRefreshControl) {
         loadData(refreshControl: refreshControl)
     }
-
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        let cell = sender as! UICollectionViewCell
+        let indexPath = collectionView.indexPath(for: cell)
+        let movie = movies![indexPath!.row]
+        
+        // create a variable for our detail view controller
+        let detailVC = segue.destination as! DetailViewController
+        detailVC.movie = movie
+        
+        
+        print("prepare for segue call")
+        
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
     }
-    */
+    
+    func loadImageFromTMDB(iv: UIImageView, posterPath: String) {
+        
+        // let baseUrl = "https://image.tmdb.org/t/p/w500"
+        
+        let baseUrl = "https://image.tmdb.org/t/p/"
+        
+        let small = "w300"
+        
+        let large = "w500"
+        
+        let smallImageUrl = URL(string: baseUrl + small + posterPath)
+        
+        let largeImageUrl = URL(string: baseUrl + large + posterPath)
+        
+        let smallImageRequest = URLRequest(url: smallImageUrl!)
+        let largeImageRequest = URLRequest(url: largeImageUrl!)
+        
+        iv.setImageWith(
+            smallImageRequest,
+            placeholderImage: nil,
+            success: { (smallImageRequest, smallImageResponse, smallImage) -> Void in
+                
+                // imageResponse will be nil if the image is cached
+                if smallImageResponse != nil {
+                    print("Image was NOT cached, fade in image")
+                    
+                    // set full transparency
+                    iv.alpha = 0.0
+                    
+                    // set the image
+                    iv.image = smallImage
+                    
+                    UIView.animate(withDuration: 0.3, animations: { () -> Void in
+                        
+                        // set no transparency over a small interval of time
+                        iv.alpha = 1.0
+                        
+                    }, completion: { (success) -> Void in
+                        
+                        // The AFNetworking ImageView Category only allows one request to be sent at a time
+                        // per ImageView. This code must be in the completion block.
+                        iv.setImageWith(
+                            largeImageRequest,
+                            placeholderImage: smallImage,
+                            success: { (largeImageRequest, largeImageResponse, largeImage) -> Void in
+                                
+                                iv.image = largeImage
+                                
+                        },
+                            failure: { (request, response, error) -> Void in
+                                // do something for the failure condition of the large image request
+                                // possible setting the ImageView's image to a default image
+                        })
+                        
+                    })
+                    
+                } else {
+                    print("Image was cached so just update the image")
+                    iv.setImageWith(largeImageUrl!)
+                    
+                }
+        },
+            failure: { (imageRequest, imageResponse, error) -> Void in
+                // do something for the failure condition
+                // possibly try to get the large image
+        })
+        
+    }
 
 }
 
@@ -175,79 +254,15 @@ extension MoviesViewController: UICollectionViewDelegate, UICollectionViewDataSo
         let movie = filteredMovies![indexPath.row]
         // set the title
         let title = movie["title"] as! String
+        movieCell.titleLabel.text = title
+        
         // set the overview
         let overview = movie["overview"] as! String
-        
-//        let baseUrl = "https://image.tmdb.org/t/p/w500"
-        let baseUrl = "https://image.tmdb.org/t/p/"
-        
-        let small = "w300"
-        
-        let large = "w500"
-        
-        let posterPath = movie["poster_path"] as! String
-        
-        let smallImageUrl = URL(string: baseUrl + small + posterPath)
-        
-        let largeImageUrl = URL(string: baseUrl + large + posterPath)
-        
-        let smallImageRequest = URLRequest(url: smallImageUrl!)
-        let largeImageRequest = URLRequest(url: largeImageUrl!)
-        
-        movieCell.titleLabel.text = "\(title)"
-        movieCell.overviewLabel.text = "\(overview)"
-//        movieCell.posterView.setImageWith(imageUrl!)
-        
-        movieCell.posterView.setImageWith(
-            smallImageRequest,
-            placeholderImage: nil,
-            success: { (smallImageRequest, smallImageResponse, smallImage) -> Void in
-                
-                // imageResponse will be nil if the image is cached
-                if smallImageResponse != nil {
-                    print("Image was NOT cached, fade in image")
-                    
-                    // set full transparency
-                    movieCell.posterView.alpha = 0.0
-                    
-                    // set the image
-                    movieCell.posterView.image = smallImage
-                    
-                    UIView.animate(withDuration: 0.3, animations: { () -> Void in
-                        
-                        // set no transparency over a small interval of time
-                        movieCell.posterView.alpha = 1.0
-                        
-                    }, completion: { (success) -> Void in
-                      
-                        // The AFNetworking ImageView Category only allows one request to be sent at a time
-                        // per ImageView. This code must be in the completion block.
-                        movieCell.posterView.setImageWith(
-                            largeImageRequest,
-                            placeholderImage: smallImage,
-                            success: { (largeImageRequest, largeImageResponse, largeImage) -> Void in
-                                
-                                movieCell.posterView.image = largeImage
-                                
-                        },
-                            failure: { (request, response, error) -> Void in
-                                // do something for the failure condition of the large image request
-                                // possible setting the ImageView's image to a default image
-                        })
-                        
-                    })
-                    
-                } else {
-                    print("Image was cached so just update the image")
-                    movieCell.posterView.setImageWith(largeImageUrl!)
-                    
-                }
-            },
-            failure: { (imageRequest, imageResponse, error) -> Void in
-                // do something for the failure condition
-                // possibly try to get the large image
-        })
-    }
+        movieCell.overviewLabel.text = overview
+
+        if let posterPath = movie["poster_path"] as? String {
+            loadImageFromTMDB(iv: movieCell.posterView, posterPath: posterPath)
+        }    }
     
     // this method sets the size of the cell
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

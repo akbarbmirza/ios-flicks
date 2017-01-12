@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		54A5DB8D1E280A520080F117 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A5DB8C1E280A520080F117 /* DetailViewController.swift */; };
 		54D38CE51E2310F8006338C9 /* MovieCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D38CE41E2310F8006338C9 /* MovieCollectionViewCell.swift */; };
 		54F563AB1E1EA6C1003271C2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F563AA1E1EA6C1003271C2 /* AppDelegate.swift */; };
 		54F563B01E1EA6C1003271C2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 54F563AE1E1EA6C1003271C2 /* Main.storyboard */; };
@@ -19,6 +20,7 @@
 
 /* Begin PBXFileReference section */
 		024BE6FC4AFC4C337A950847 /* Pods-MovieViewer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MovieViewer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MovieViewer/Pods-MovieViewer.debug.xcconfig"; sourceTree = "<group>"; };
+		54A5DB8C1E280A520080F117 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		54D38CE41E2310F8006338C9 /* MovieCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieCollectionViewCell.swift; sourceTree = "<group>"; };
 		54F563A71E1EA6C1003271C2 /* MovieViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		54F563AA1E1EA6C1003271C2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 			isa = PBXGroup;
 			children = (
 				54F563BC1E1EA755003271C2 /* MoviesViewController.swift */,
+				54A5DB8C1E280A520080F117 /* DetailViewController.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -236,6 +239,7 @@
 			files = (
 				54F563AB1E1EA6C1003271C2 /* AppDelegate.swift in Sources */,
 				54F563BD1E1EA755003271C2 /* MoviesViewController.swift in Sources */,
+				54A5DB8D1E280A520080F117 /* DetailViewController.swift in Sources */,
 				54F563C01E1EB023003271C2 /* MovieCell.swift in Sources */,
 				54D38CE51E2310F8006338C9 /* MovieCollectionViewCell.swift in Sources */,
 			);
