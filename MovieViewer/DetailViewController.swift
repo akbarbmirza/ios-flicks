@@ -12,7 +12,9 @@ import AFNetworking // for setImageWith Method
 class DetailViewController: UIViewController {
     
     // Set up Outlets for Detail View
+    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var posterImageView: UIImageView!
+    @IBOutlet weak var infoView: UIView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var overviewLabel: UILabel!
     
@@ -27,6 +29,13 @@ class DetailViewController: UIViewController {
         
         let overview = movie["overview"] as? String
         overviewLabel.text = overview
+        
+        // run sizeToFit Method
+        overviewLabel.sizeToFit()
+        infoView.frame.size = CGSize(width: scrollView.frame.size.width, height: titleLabel.frame.height + overviewLabel.frame.height)
+        
+        // set the size of our scroll view
+        scrollView.contentSize = CGSize(width: scrollView.frame.size.width, height: infoView.frame.origin.y + infoView.frame.size.height)
         
         if let posterPath = movie["poster_path"] as? String {
             loadPosterFromTMDB(iv: posterImageView, posterPath: posterPath)

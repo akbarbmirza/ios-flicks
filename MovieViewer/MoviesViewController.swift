@@ -24,20 +24,18 @@ class MoviesViewController: UIViewController {
     
     var filteredMovies: [NSDictionary]!
     
+    var refreshControl: UIRefreshControl!
+    
+    var endpoint: String!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // set up our collectionView
         setupCollectionView()
         
-        // Initialize a UIRefreshControl
-        let refreshControl = UIRefreshControl()
-        
-        // Bind the action to the refresh control
-        refreshControl.addTarget(self, action: #selector(refreshControlAction(refreshControl:)), for: UIControlEvents.valueChanged)
-        
-        // add the refresh control to the collection view
-        collectionView.insertSubview(refreshControl, at: 0)
+        // set up our refreshControl
+        setupRefreshControl()
         
         // setup searchbar delegate
         searchBar.delegate = self
@@ -47,8 +45,8 @@ class MoviesViewController: UIViewController {
             filteredMovies = movies
         }
         
-        // load our data into the view
-        loadData(refreshControl: refreshControl)
+        // make our network request, and load the data
+        networkRequest()
         
     }
 
@@ -69,10 +67,20 @@ class MoviesViewController: UIViewController {
         layout.minimumInteritemSpacing = 0
     }
     
-    func loadData(refreshControl: UIRefreshControl?) {
+    // initializing our refreshControl and adding it to the VC
+    func setupRefreshControl() {
+        // Initialize a UIRefreshControl
+        refreshControl = UIRefreshControl()
+        // Bind the action to the refresh control
+        refreshControl.addTarget(self, action: #selector(refreshControlAction(refreshControl:)), for: UIControlEvents.valueChanged)
+        // add the refresh control to the collection view
+        collectionView.insertSubview(refreshControl, at: 0)
+    }
+    
+    func networkRequest() {
         // Create the URLRequest (request)
         let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
-        let url = URL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=\(apiKey)")!
+        let url = URL(string: "https://api.themoviedb.org/3/movie/\(endpoint)?api_key=\(apiKey)")!
         let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10)
         
         // Configure session so that completion handler is executed on main UI thread
@@ -104,7 +112,7 @@ class MoviesViewController: UIViewController {
                     self.collectionView.reloadData()
                     
                     // if a refreshControl was passed
-                    if let refreshControl = refreshControl {
+                    if let refreshControl = self.refreshControl {
                         // Tell the refreshControl to stop spinning
                         refreshControl.endRefreshing()
                     }
@@ -123,7 +131,7 @@ class MoviesViewController: UIViewController {
     // Updates the view with new data
     // Hides the RefreshControl
     func refreshControlAction(refreshControl: UIRefreshControl) {
-        loadData(refreshControl: refreshControl)
+        networkRequest()
     }
     
     // MARK: - Navigation
