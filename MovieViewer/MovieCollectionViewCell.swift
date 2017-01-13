@@ -33,4 +33,16 @@ class MovieCollectionViewCell: UICollectionViewCell {
         // contentView.addSubview(posterView)
     }
     
+    override var isSelected: Bool {
+        didSet {
+            if isSelected {
+                // animate selection
+                self.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+            } else {
+                // animate deselection
+                self.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+            }
+        }
+    }
+    
 }

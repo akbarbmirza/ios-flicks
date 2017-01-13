@@ -8,10 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		54A5DB8D1E280A520080F117 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A5DB8C1E280A520080F117 /* DetailViewController.swift */; };
+		54BC7F7D1E294D39009F2462 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54BC7F7C1E294D39009F2462 /* Assets.xcassets */; };
 		54D38CE51E2310F8006338C9 /* MovieCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D38CE41E2310F8006338C9 /* MovieCollectionViewCell.swift */; };
 		54F563AB1E1EA6C1003271C2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F563AA1E1EA6C1003271C2 /* AppDelegate.swift */; };
 		54F563B01E1EA6C1003271C2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 54F563AE1E1EA6C1003271C2 /* Main.storyboard */; };
-		54F563B21E1EA6C1003271C2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54F563B11E1EA6C1003271C2 /* Assets.xcassets */; };
 		54F563B51E1EA6C1003271C2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 54F563B31E1EA6C1003271C2 /* LaunchScreen.storyboard */; };
 		54F563BD1E1EA755003271C2 /* MoviesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F563BC1E1EA755003271C2 /* MoviesViewController.swift */; };
 		54F563C01E1EB023003271C2 /* MovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F563BF1E1EB023003271C2 /* MovieCell.swift */; };
@@ -21,11 +21,11 @@
 /* Begin PBXFileReference section */
 		024BE6FC4AFC4C337A950847 /* Pods-MovieViewer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MovieViewer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MovieViewer/Pods-MovieViewer.debug.xcconfig"; sourceTree = "<group>"; };
 		54A5DB8C1E280A520080F117 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		54BC7F7C1E294D39009F2462 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		54D38CE41E2310F8006338C9 /* MovieCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieCollectionViewCell.swift; sourceTree = "<group>"; };
 		54F563A71E1EA6C1003271C2 /* MovieViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		54F563AA1E1EA6C1003271C2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		54F563AF1E1EA6C1003271C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		54F563B11E1EA6C1003271C2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		54F563B41E1EA6C1003271C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		54F563B61E1EA6C1003271C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		54F563BC1E1EA755003271C2 /* MoviesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoviesViewController.swift; sourceTree = "<group>"; };
@@ -88,8 +88,8 @@
 				54F563BE1E1EAFF4003271C2 /* Views */,
 				54F563AA1E1EA6C1003271C2 /* AppDelegate.swift */,
 				54F563AE1E1EA6C1003271C2 /* Main.storyboard */,
-				54F563B11E1EA6C1003271C2 /* Assets.xcassets */,
 				54F563B31E1EA6C1003271C2 /* LaunchScreen.storyboard */,
+				54BC7F7C1E294D39009F2462 /* Assets.xcassets */,
 				54F563B61E1EA6C1003271C2 /* Info.plist */,
 			);
 			path = MovieViewer;
@@ -177,7 +177,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				54F563B51E1EA6C1003271C2 /* LaunchScreen.storyboard in Resources */,
-				54F563B21E1EA6C1003271C2 /* Assets.xcassets in Resources */,
+				54BC7F7D1E294D39009F2462 /* Assets.xcassets in Resources */,
 				54F563B01E1EA6C1003271C2 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
